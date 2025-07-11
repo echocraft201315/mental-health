@@ -57,13 +57,13 @@ export function CoachSidebar() {
       <Sidebar 
         className={`${collapsed ? "w-16" : "w-64"} border-r-0`}
         style={{
-          backgroundColor: '#0b0e19',
+          backgroundColor: '#233950',
           color: '#ffffff'
         }}
       >
         <SidebarContent 
           style={{
-            backgroundColor: '#0b0e19'
+            backgroundColor: '#233950'
           }}
         >
           <SidebarGroup>

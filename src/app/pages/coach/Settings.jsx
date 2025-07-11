@@ -49,18 +49,18 @@ const Settings = () => {
     if (theme === "dark") {
       root.classList.add("dark");
       // Only update main background and text colors, not sidebar
-      root.style.setProperty('--luxury-background', '#0b1120');
+      root.style.setProperty('--luxury-background', '#d0f4f0');
       root.style.setProperty('--luxury-dark', '#f1f5f9');
     } else if (theme === "light") {
       root.classList.remove("dark");
       // Reset main colors for light mode, keep sidebar unchanged
-      root.style.setProperty('--luxury-background', '#fff2f4');
+      root.style.setProperty('--luxury-background', '#d0f4f0');
       root.style.setProperty('--luxury-dark', '#0b0e19');
     } else if (theme === "auto") {
       // Auto theme logic - check system preference
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         root.classList.add("dark");
-        root.style.setProperty('--luxury-background', '#0b1120');
+        root.style.setProperty('--luxury-background', '#d0f4f0');
         root.style.setProperty('--luxury-dark', '#f1f5f9');
       } else {
         root.classList.remove("dark");
@@ -116,7 +116,7 @@ const Settings = () => {
         <h1 className="text-3xl font-bold text-luxury-dark mb-8">Settings</h1>
         
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-6 bg-[#8082fc96]">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="privacy">Privacy</TabsTrigger>

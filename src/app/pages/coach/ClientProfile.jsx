@@ -72,6 +72,22 @@ const ClientProfile = () => {
   const [sessionTime, setSessionTime] = useState("")
   const [sessionType, setSessionType] = useState("")
 
+  // State for Show All modals
+  const [showAllTasks, setShowAllTasks] = useState(false)
+  const [showAllFiles, setShowAllFiles] = useState(false)
+
+  // Task counts
+  const totalTasks = tasks.length
+  const completedTasks = tasks.filter(t => t.completed).length
+  const pendingTasks = totalTasks - completedTasks
+
+  // File counts by type
+  const totalFiles = files.length
+  const fileTypeCounts = files.reduce((acc, file) => {
+    acc[file.type] = (acc[file.type] || 0) + 1
+    return acc
+  }, {})
+
   // Mock client data - in real app, fetch based on id
   const client = {
     id: id,
@@ -407,57 +423,67 @@ const ClientProfile = () => {
             {/* Tasks Box */}
             <Card>
               <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle className="text-luxury-dark flex items-center">
-                    <Check className="w-5 h-5 mr-2" />
-                    Recent Tasks
-                  </CardTitle>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size="sm" className="bg-luxury-pink hover:bg-luxury-pink/90">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Task
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Add New Task</DialogTitle>
-                        <DialogDescription>
-                          Create a new task for {client.name} to complete.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Task Description</Label>
-                          <Input 
-                            placeholder="e.g. Meditate 30 minutes"
-                            value={newTask}
-                            onChange={(e) => setNewTask(e.target.value)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Task Details (Optional)</Label>
-                          <Textarea 
-                            placeholder="Additional details or instructions"
-                            value={newTaskDetails}
-                            onChange={(e) => setNewTaskDetails(e.target.value)}
-                          />
-                        </div>
-                        <Button 
-                          onClick={addTask}
-                          className="w-full bg-luxury-pink hover:bg-luxury-pink/90"
-                          disabled={!newTask.trim()}
-                        >
-                          Create Task
+                <div className="flex justify-between items-center w-full">
+                  <div>
+                    <CardTitle className="text-luxury-dark flex items-center">
+                      <Check className="w-5 h-5 mr-2" />
+                      Recent Tasks
+                    </CardTitle>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Total: {totalTasks} | Completed: {completedTasks} | Pending: {pendingTasks}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" onClick={() => setShowAllTasks(true)}>
+                      Show All
+                    </Button>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button size="sm" className="bg-luxury-pink hover:bg-luxury-pink/90">
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Task
                         </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Add New Task</DialogTitle>
+                          <DialogDescription>
+                            Create a new task for {client.name} to complete.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div className="space-y-2">
+                            <Label>Task Description</Label>
+                            <Input 
+                              placeholder="e.g. Meditate 30 minutes"
+                              value={newTask}
+                              onChange={(e) => setNewTask(e.target.value)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label>Task Details (Optional)</Label>
+                            <Textarea 
+                              placeholder="Additional details or instructions"
+                              value={newTaskDetails}
+                              onChange={(e) => setNewTaskDetails(e.target.value)}
+                            />
+                          </div>
+                          <Button 
+                            onClick={addTask}
+                            className="w-full bg-luxury-pink hover:bg-luxury-pink/90"
+                            disabled={!newTask.trim()}
+                          >
+                            Create Task
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 max-h-64 overflow-y-auto">
-                  {tasks.map((task) => (
+                  {tasks.slice(0, 3).map((task) => (
                     <div key={task.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <Button 
@@ -473,15 +499,47 @@ const ClientProfile = () => {
                           )}
                         </Button>
                         <div>
-                          <p className={`text-sm ${task.completed ? "line-through text-muted-foreground" : "text-foreground"}`}>
-                            {task.task}
-                          </p>
+                          <p className={`text-sm ${task.completed ? "line-through text-muted-foreground" : "text-foreground"}`}>{task.task}</p>
                           <p className="text-xs text-muted-foreground">{task.date}</p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
+                {/* Show All Tasks Modal */}
+                {showAllTasks && (
+                  <Dialog open={showAllTasks} onOpenChange={setShowAllTasks}>
+                    <DialogContent className="max-w-lg">
+                      <DialogHeader>
+                        <DialogTitle>All Tasks</DialogTitle>
+                      </DialogHeader>
+                      <div className="max-h-96 overflow-y-auto space-y-3 mt-2">
+                        {tasks.map((task) => (
+                          <div key={task.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                            <div className="flex items-center space-x-3">
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className="p-1"
+                                onClick={() => toggleTask(task.id)}
+                              >
+                                {task.completed ? (
+                                  <Check className="w-4 h-4 text-green-500" />
+                                ) : (
+                                  <div className="w-4 h-4 border-2 border-muted-foreground rounded" />
+                                )}
+                              </Button>
+                              <div>
+                                <p className={`text-sm ${task.completed ? "line-through text-muted-foreground" : "text-foreground"}`}>{task.task}</p>
+                                <p className="text-xs text-muted-foreground">{task.date}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </CardContent>
             </Card>
 
@@ -545,45 +603,55 @@ const ClientProfile = () => {
               {/* Files Box */}
               <Card>
                 <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-luxury-dark flex items-center text-lg">
-                      <FileText className="w-5 h-5 mr-2" />
-                      Client Files
-                    </CardTitle>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button size="sm" className="bg-luxury-pink hover:bg-luxury-pink/90">
-                          <Upload className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Upload File</DialogTitle>
-                          <DialogDescription>
-                            Upload a file for {client.name}.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div className="space-y-2">
-                            <Label>File Name</Label>
-                            <Input placeholder="Enter file name" />
-                          </div>
-                          <div className="space-y-2">
-                            <Label>File</Label>
-                            <Input type="file" />
-                          </div>
-                          <Button className="w-full bg-luxury-pink hover:bg-luxury-pink/90">
-                            <Upload className="w-4 h-4 mr-2" />
-                            Upload File
+                  <div className="flex justify-between items-center w-full">
+                    <div>
+                      <CardTitle className="text-luxury-dark flex items-center text-lg">
+                        <FileText className="w-5 h-5 mr-2" />
+                        Client Files
+                      </CardTitle>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        Total: {totalFiles} {Object.entries(fileTypeCounts).map(([type, count]) => `| ${type}: ${count} `)}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => setShowAllFiles(true)}>
+                        Show All
+                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm" className="bg-luxury-pink hover:bg-luxury-pink/90">
+                            <Upload className="w-4 h-4" />
                           </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Upload File</DialogTitle>
+                            <DialogDescription>
+                              Upload a file for {client.name}.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <div className="space-y-2">
+                              <Label>File Name</Label>
+                              <Input placeholder="Enter file name" />
+                            </div>
+                            <div className="space-y-2">
+                              <Label>File</Label>
+                              <Input type="file" />
+                            </div>
+                            <Button className="w-full bg-luxury-pink hover:bg-luxury-pink/90">
+                              <Upload className="w-4 h-4 mr-2" />
+                              Upload File
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3 max-h-48 overflow-y-auto">
-                    {files.map((file) => (
+                    {files.slice(0, 3).map((file) => (
                       <div key={file.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <FileText className="w-4 h-4 text-luxury-pink" />
@@ -599,6 +667,33 @@ const ClientProfile = () => {
                       </div>
                     ))}
                   </div>
+                  {/* Show All Files Modal */}
+                  {showAllFiles && (
+                    <Dialog open={showAllFiles} onOpenChange={setShowAllFiles}>
+                      <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                          <DialogTitle>All Files</DialogTitle>
+                        </DialogHeader>
+                        <div className="max-h-96 overflow-y-auto space-y-3 mt-2">
+                          {files.map((file) => (
+                            <div key={file.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <FileText className="w-4 h-4 text-luxury-pink" />
+                                <div>
+                                  <p className="text-sm font-medium">{file.name}</p>
+                                  <p className="text-xs text-muted-foreground">{file.type} • {file.date}</p>
+                                </div>
+                              </div>
+                              <Button size="sm" variant="outline">
+                                <Download className="w-4 h-4 mr-1" />
+                                Download
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </CardContent>
               </Card>
             </div>

@@ -130,7 +130,7 @@ const Clients = () => {
                 <Button
                   variant={filterStatus === "active" ? "default" : "outline"}
                   onClick={() => setFilterStatus("active")}
-                  className="bg-luxury-pink hover:bg-luxury-pink/90"
+                  className="bg-luxury-pink hover:bg-luxury-pink/90 text-white hover:text-white"
                 >
                   Active
                 </Button>

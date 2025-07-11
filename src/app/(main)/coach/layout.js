@@ -4,7 +4,7 @@ import { SidebarProvider } from "@/app/components/ui/sidebar";
 export default function CoachLayout({ children }) {
   // Default to light mode for SSR
   const initialStyle = {
-    '--luxury-background': '#fff2f4',
+    '--luxury-background': '#d0f4f0',
     '--luxury-dark': '#0b0e19',
   };
 
@@ -24,7 +24,7 @@ export default function CoachLayout({ children }) {
                     root.style.setProperty('--luxury-dark', '#f1f5f9');
                   } else {
                     root.classList.remove('dark');
-                    root.style.setProperty('--luxury-background', '#fff2f4');
+                    root.style.setProperty('--luxury-background', '#d0f4f0');
                     root.style.setProperty('--luxury-dark', '#0b0e19');
                   }
                 } catch (e) {}

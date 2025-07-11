@@ -108,7 +108,7 @@
 
 :root {
   /* Luxurious coaching platform color palette */
-  --background: #fff2f4;
+  --background: 	#C9F3ED;
   --foreground: #0f1323;
 
   --card: #ffffff;
@@ -117,30 +117,30 @@
   --popover: #ffffff;
   --popover-foreground: #0f1323;
 
-  --primary: #ff5670;
+  --primary: #4c36c9;
   --primary-foreground: #ffffff;
 
   --secondary: #fff2f4;
   --secondary-foreground: #0f1323;
 
-  --muted: #f8e6eb;
+  --muted: #D2F7EF;
   --muted-foreground: #4b567a;
 
-  --accent: #ffc052;
+  --accent: #c5d6df;
   --accent-foreground: #0f1323;
 
   --destructive: #e63946;
   --destructive-foreground: #ffffff;
 
-  --border: #f5d6df;
-  --input: #f5d6df;
-  --ring: #ff5670;
-
+  --border: #003cff1c;
+  --input: #5580df;
+  --ring: #5659ff;
+  
   /* Custom luxury tokens */
   --luxury-dark: #0b0e19;
   --luxury-gold: #ffc052;
-  --luxury-pink: #ff5670;
-  --luxury-background: #fff2f4;
+  --luxury-pink: #2f21fad0;
+  --luxury-background: #8082fc96;
 
   --radius: 0.5rem;
 
@@ -155,7 +155,7 @@
   --sidebar: hsl(0 0% 98%);
 
   /*client side*/
-  --background1: #fff9f4;
+  --background1: #f4f5ff;
   --foreground1: #334156;
 
   --card1: #ffffff;
