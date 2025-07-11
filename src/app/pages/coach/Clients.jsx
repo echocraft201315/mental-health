@@ -183,7 +183,6 @@ const Clients = () => {
                         <td className="py-3 px-4">
                           <div 
                             className="flex items-center space-x-3 cursor-pointer hover:bg-muted/50 rounded p-2 -m-2"
-                            onClick={() => router.push(`/clients/${client.id}`)}
                           >
                             <div className="w-8 h-8 bg-luxury-pink/20 rounded-full flex items-center justify-center">
                               <span className="text-luxury-pink font-medium text-sm">
@@ -204,14 +203,10 @@ const Clients = () => {
                         <td className="py-3 px-4 text-muted-foreground">{client.created}</td>
                         <td className="py-3 px-4">
                           <div className="flex space-x-2">
-                            <Button size="sm" variant="ghost" className="p-2">
+                            <Button size="sm" variant="ghost" className="p-2"
+                                                        onClick={() => router.push(`/clients/${client.id}`)}
+>
                               <Eye className="h-4 w-4" />
-                            </Button>
-                            <Button size="sm" variant="ghost" className="p-2">
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button size="sm" variant="ghost" className="p-2">
-                              <MessageCircle className="h-4 w-4" />
                             </Button>
                           </div>
                         </td>
