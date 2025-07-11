@@ -33,13 +33,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/ui/pop
 import { Calendar as CalendarComponent } from "@/app/components/ui/calendar"
 import { format } from "date-fns"
 import { cn } from "@/app/lib/utils"
-import { useToast } from "@/app/hooks/use-toast"
+import { toast } from "sonner";
+
 
 const ClientProfile = () => {
   const params = useParams()
   const id = params.id
   const router = useRouter()
-  const { toast } = useToast()
 
   // State management
   const [tasks, setTasks] = useState([
@@ -221,10 +221,6 @@ const ClientProfile = () => {
               </div>
               
               <div className="pt-4 space-y-2">
-                <Button className="w-full bg-luxury-pink hover:bg-luxury-pink/90">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Message Client
-                </Button>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline" className="w-full">

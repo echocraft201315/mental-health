@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card"
 import { Input } from "@/app/components/ui/input"
 import { Badge } from "@/app/components/ui/badge"
@@ -204,7 +204,7 @@ const Clients = () => {
                         <td className="py-3 px-4">
                           <div className="flex space-x-2">
                             <Button size="sm" variant="ghost" className="p-2"
-                                                        onClick={() => router.push(`/clients/${client.id}`)}
+                                                        onClick={() => router.push(`/coach/clients/${client.id}`)}
 >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -239,7 +239,7 @@ const Clients = () => {
                           <Card 
                             key={client.id} 
                             className="cursor-pointer hover:shadow-md transition-shadow bg-white/50"
-                            onClick={() => navigate(`/clients/${client.id}`)}
+                            onClick={() => router.push(`/clients/${client.id}`)}
                           >
                             <CardContent className="p-3">
                               <div className="flex items-center justify-between mb-2">
