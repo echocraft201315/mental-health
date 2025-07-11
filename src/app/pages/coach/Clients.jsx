@@ -239,7 +239,7 @@ const Clients = () => {
                           <Card 
                             key={client.id} 
                             className="cursor-pointer hover:shadow-md transition-shadow bg-white/50"
-                            onClick={() => router.push(`/clients/${client.id}`)}
+                            onClick={() => router.push(`/coach/clients/${client.id}`)}
                           >
                             <CardContent className="p-3">
                               <div className="flex items-center justify-between mb-2">
