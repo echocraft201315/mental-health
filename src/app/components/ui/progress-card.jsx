@@ -36,7 +36,7 @@ export const ProgressCard = ({
   const colors = colorMap[color]
 
   return (
-    <div className="p-4 rounded-xl bg-card1 border border-border shadow-soft">
+    <div className="p-4 rounded-xl bg-card1 border border-border shadow-card hover-lift">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           {icon && (

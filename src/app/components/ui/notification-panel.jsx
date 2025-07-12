@@ -104,7 +104,7 @@ export const NotificationPanel = ({ isOpen, onClose, onNavigate }) => {
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification)}
                     className={cn(
-                      "w-full p-4 rounded-xl text-left transition-all duration-200 hover:scale-[1.02] hover:shadow-soft",
+                      "w-full p-4 rounded-xl text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-card hover-lift",
                       notification.unread 
                         ? "bg-gradient-primary/10 border border-primary/20" 
                         : "bg-card1 border border-border hover:bg-muted/50"

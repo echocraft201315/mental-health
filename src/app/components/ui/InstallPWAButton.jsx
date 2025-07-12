@@ -5,6 +5,7 @@ export default function InstallPWAButton() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showButton, setShowButton] = useState(false);
   const [alertShown, setAlertShown] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     const handler = (e) => {
@@ -27,10 +28,13 @@ export default function InstallPWAButton() {
     if (outcome === "accepted") {
       setShowButton(false);
       setDeferredPrompt(null);
+    } else if (outcome === "dismissed") {
+      setShowButton(false);
+      setDismissed(true);
     }
   };
 
-  if (!showButton) return null;
+  if (!showButton || dismissed) return null;
 
   return (
     <button

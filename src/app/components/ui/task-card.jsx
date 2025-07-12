@@ -16,7 +16,7 @@ export const TaskCard = ({ task, onToggle }) => {
 
   return (
     <div className={cn(
-      "p-4 rounded-xl border transition-all duration-200 hover:shadow-soft",
+      "p-4 rounded-xl border transition-all duration-300 hover:shadow-card hover-lift",
       task.completed 
         ? "bg-muted1/30 border-muted1" 
         : priorityColors[task.priority]

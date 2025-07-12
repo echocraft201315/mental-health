@@ -13,7 +13,9 @@ import {
   Trash2,
   MessageCircle,
   Video,
-  Settings
+  Settings,
+  CheckCircle,
+  Circle
 } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog"
 import { Input } from "@/app/components/ui/input"
@@ -22,6 +24,7 @@ import { Checkbox } from "@/app/components/ui/checkbox"
 const GroupDetail = ({ id }) => {
   const router = useRouter()
   const [selectedClients, setSelectedClients] = useState([])
+  const [addDialogSelected, setAddDialogSelected] = useState([])
 
   // Mock group data
   const group = {
@@ -54,8 +57,16 @@ const GroupDetail = ({ id }) => {
     }
   }
 
+  const handleAddDialogSelection = (clientId) => {
+    if (addDialogSelected.includes(clientId)) {
+      setAddDialogSelected(addDialogSelected.filter(id => id !== clientId))
+    } else {
+      setAddDialogSelected([...addDialogSelected, clientId])
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-luxury-background p-6">
+    <div className="min-h-screen bg-gradient-gentle-neutral bg-pattern-subtle p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -63,52 +74,47 @@ const GroupDetail = ({ id }) => {
             <Button 
               variant="ghost" 
               onClick={() => router.push("/groups")}
-              className="mr-4"
+              className="mr-4 bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Groups
             </Button>
-            <h1 className="text-3xl font-bold text-luxury-dark">{group.name}</h1>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              {group.name}
+            </h1>
           </div>
           <div className="flex space-x-2">
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline">
+                <Button variant="outline" className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
                   <Settings className="w-4 h-4 mr-2" />
                   Manage Members
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Manage Group Members</DialogTitle>
-                </DialogHeader>
+              <DialogContent className="max-w-md bg-blue-50 border-2 border-blue-400 shadow-2xl rounded-xl p-8">
+                <h2 className="text-blue-900 font-bold text-xl mb-1">Create New Group</h2>
+                <p className="text-blue-700 mb-6">Fill in the details below to create a new group and add clients.</p>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Add New Members</h4>
-                    <div className="space-y-2 max-h-48 overflow-y-auto">
-                      {availableClients.map((client) => (
-                        <div key={client.id} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`client-${client.id}`}
-                            checked={selectedClients.includes(client.id.toString())}
-                            onCheckedChange={(checked) => 
-                              handleClientSelection(client.id.toString(), checked)
-                            }
-                          />
-                          <label htmlFor={`client-${client.id}`} className="text-sm">
-                            {client.name}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
+                    <label className="block text-blue-900 font-medium mb-1">Group Name *</label>
+                    <input className="w-full border border-blue-200 rounded-lg p-2 bg-white text-blue-900 focus:border-blue-500 focus:outline-none" placeholder="Enter group name" />
                   </div>
-                  <Button className="w-full bg-luxury-pink hover:bg-luxury-pink/90">
-                    Add Selected Members
-                  </Button>
+                  <div>
+                    <label className="block text-blue-900 font-medium mb-1">Description</label>
+                    <textarea className="w-full border border-blue-200 rounded-lg p-2 bg-white text-blue-900 focus:border-blue-500 focus:outline-none" placeholder="Optional group description" />
+                  </div>
+                  <div>
+                    <label className="block text-blue-900 font-medium mb-1">Add Clients *</label>
+                    <input className="w-full border border-blue-200 rounded-lg p-2 bg-white text-blue-900 focus:border-blue-500 focus:outline-none" placeholder="Search clients..." />
+                  </div>
+                  <div className="flex justify-end space-x-2 pt-4">
+                    <button className="px-4 py-2 rounded-lg border border-blue-200 text-blue-700 bg-white hover:bg-blue-100">Cancel</button>
+                    <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow hover:from-blue-600 hover:to-blue-800">+ Create</button>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
-            <Button className="bg-luxury-pink hover:bg-luxury-pink/90">
+            <Button className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
               <MessageCircle className="w-4 h-4 mr-2" />
               Group Chat
             </Button>
@@ -117,9 +123,9 @@ const GroupDetail = ({ id }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Group Info */}
-          <Card className="lg:col-span-1">
+          <Card className="lg:col-span-1 bg-gradient-card shadow-soft border-0">
             <CardHeader>
-              <CardTitle className="text-luxury-dark">Group Information</CardTitle>
+              <CardTitle>Group Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-3">
@@ -135,10 +141,10 @@ const GroupDetail = ({ id }) => {
                 <span>{group.totalSessions} total sessions</span>
               </div>
               <div className="pt-4 space-y-2">
-                <Button className="w-full bg-luxury-pink hover:bg-luxury-pink/90">
+                <Button className="w-full bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
                   Schedule Session
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
                   View Session History
                 </Button>
               </div>
@@ -146,37 +152,55 @@ const GroupDetail = ({ id }) => {
           </Card>
 
           {/* Members List */}
-          <Card className="lg:col-span-2">
+          <Card className="lg:col-span-2 bg-gradient-card shadow-soft border-0">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-luxury-dark">Group Members</CardTitle>
+                <CardTitle>Group Members</CardTitle>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button size="sm" className="bg-luxury-pink hover:bg-luxury-pink/90">
+                    <Button size="sm" className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Member
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="max-w-md bg-blue-50 border-2 border-blue-400 shadow-lg rounded-lg">
                     <DialogHeader>
-                      <DialogTitle>Add New Member</DialogTitle>
+                      <DialogTitle className="text-blue-900">Add New Member</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-4">
+                    <div className="space-y-4 p-6">
                       <div>
-                        <label className="text-sm font-medium">Select from existing clients:</label>
+                        <label className="text-sm font-medium text-blue-900">Select from existing clients:</label>
                         <div className="mt-2 space-y-2 max-h-48 overflow-y-auto">
                           {availableClients.map((client) => (
-                            <div key={client.id} className="flex items-center space-x-2 p-2 border rounded">
-                              <Checkbox id={`add-${client.id}`} />
-                              <label htmlFor={`add-${client.id}`} className="flex-1">
-                                {client.name}
-                              </label>
-                              <Badge variant="secondary">{client.status}</Badge>
-                            </div>
+                            <button
+                              key={client.id}
+                              type="button"
+                              onClick={() => handleAddDialogSelection(client.id)}
+                              className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 text-left border-2 ${
+                                addDialogSelected.includes(client.id)
+                                  ? 'bg-blue-100 border-blue-400'
+                                  : 'bg-blue-50 border-blue-200 hover:bg-blue-100'
+                              }`}
+                            >
+                              <span>
+                                {addDialogSelected.includes(client.id) ? (
+                                  <CheckCircle className="w-6 h-6 text-green-600" />
+                                ) : (
+                                  <Circle className="w-6 h-6 text-blue-200" />
+                                )}
+                              </span>
+                              <span className="flex-1">
+                                <span className="block font-medium text-blue-800">{client.name}</span>
+                                <span className="block text-sm text-blue-700">{client.status}</span>
+                              </span>
+                              <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                                {client.status}
+                              </Badge>
+                            </button>
                           ))}
                         </div>
                       </div>
-                      <Button className="w-full bg-luxury-pink hover:bg-luxury-pink/90">
+                      <Button className="w-full bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary text-white font-semibold">
                         Add to Group
                       </Button>
                     </div>
@@ -187,10 +211,10 @@ const GroupDetail = ({ id }) => {
             <CardContent>
               <div className="space-y-4">
                 {group.members.map((member) => (
-                  <div key={member.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50">
+                  <div key={member.id} className="flex items-center justify-between p-4 bg-gradient-gentle-neutral/20 rounded-lg hover:bg-gradient-gentle-neutral/30 transition-all duration-300">
                     <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 bg-luxury-pink/20 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-luxury-pink">
+                      <div className="w-10 h-10 bg-gradient-gentle-primary rounded-full flex items-center justify-center shadow-soft">
+                        <span className="text-sm font-medium text-white">
                           {member.name.split(' ').map(n => n[0]).join('')}
                         </span>
                       </div>
@@ -198,19 +222,17 @@ const GroupDetail = ({ id }) => {
                         <p className="font-medium">{member.name}</p>
                         <p className="text-sm text-muted-foreground">Joined {member.joinDate}</p>
                       </div>
-                      <div className="text-xl">{member.mood}</div>
-                      <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <span className="text-2xl">{member.mood}</span>
+                      <Badge variant="secondary" className="bg-gradient-gentle-secondary/20 text-foreground">
                         {member.status}
                       </Badge>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button size="sm" variant="ghost" onClick={() => router.push(`/clients/${member.id}`)}>
-                        View Profile
-                      </Button>
-                      <Button size="sm" variant="ghost">
-                        <MessageCircle className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive">
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        className="hover:bg-gradient-gentle-warm/20"
+                      >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -219,45 +241,6 @@ const GroupDetail = ({ id }) => {
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        {/* Group Statistics */}
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold text-luxury-dark mb-6">Group Progress</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-luxury-pink mb-2">85%</div>
-                  <div className="text-muted-foreground">Avg. Attendance</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-luxury-gold mb-2">92%</div>
-                  <div className="text-muted-foreground">Goal Achievement</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-luxury-dark mb-2">4.8</div>
-                  <div className="text-muted-foreground">Avg. Rating</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-2">6</div>
-                  <div className="text-muted-foreground">Active Members</div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>

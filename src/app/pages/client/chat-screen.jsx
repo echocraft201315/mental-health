@@ -29,9 +29,9 @@ export const ChatScreen = ({ onBookSession, onReschedule }) => {
   ])
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-background1">
       {/* Header */}
-      <div className="bg-gradient-card1 border-b border-border p-6">
+      <div className="bg-card1 border-b border-border p-6">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full bg-gradient-primary1 flex items-center justify-center text-xl">
             👩‍⚕️

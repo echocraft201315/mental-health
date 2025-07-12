@@ -31,9 +31,9 @@ export const AudioPlayer = ({ onBack, title, author, duration }) => {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-full">
+    <div className="flex-1 flex flex-col h-full bg-background1">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-card1 border-b border-border">
+      <div className="flex items-center justify-between p-4 bg-card1 border-b border-border shadow-soft rounded-t-xl">
         <Button variant="ghost" size="icon" onClick={onBack}>
           <ArrowLeft className="w-5 h-5" />
         </Button>

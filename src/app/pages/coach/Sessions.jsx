@@ -14,7 +14,8 @@ import {
   Eye,
   Edit,
   MessageCircle,
-  Trash
+  Trash,
+  Send
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import {
@@ -27,68 +28,116 @@ import {
 } from "@/app/components/ui/dialog";
 
 function SessionViewModal({ session, open, onClose }) {
+  // Don't render if session is null
+  if (!session) return null;
+  
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Session Details</DialogTitle>
-        </DialogHeader>
-        <div className="mb-4">
-          <div><b>Date:</b> {session.date} {session.time}</div>
-          <div><b>Type:</b> {session.type}</div>
-          <div><b>Client/Group:</b> {session.client}</div>
-          <div><b>Status:</b> {session.status}</div>
-          <div><b>Mood:</b> {session.mood}</div>
-          <div className="mt-2"><b>Members:</b> {session.type === "Group" ? "Alice, Bob, Charlie" : session.client}</div>
-          <div className="mt-2"><b>Notes:</b> Session notes and resources...</div>
-        </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Close</Button>
-        </DialogFooter>
-      </DialogContent>
+      <div className="bg-gradient-to-r from-blue-400 to-purple-400 p-[2px] rounded-2xl shadow-2xl">
+        <DialogContent className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 border-0 rounded-2xl shadow-2xl p-0">
+          <DialogHeader className="px-8 pt-8 pb-2">
+            <DialogTitle className="text-2xl font-bold text-blue-900 flex items-center gap-2"><Eye className="w-6 h-6 text-blue-400" /> Session Details</DialogTitle>
+          </DialogHeader>
+          <div className="px-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <div className="font-semibold text-blue-700 mb-1 flex items-center gap-2"><CalendarIcon className="w-4 h-4" /> Date & Time</div>
+                <div className="bg-white/70 rounded-lg p-3 mb-2 flex items-center gap-2"><span>{session.date}</span><span className="text-muted-foreground">{session.time}</span></div>
+                <div className="font-semibold text-blue-700 mb-1 flex items-center gap-2"><Users className="w-4 h-4" /> Type</div>
+                <div className="bg-white/70 rounded-lg p-3 mb-2 flex items-center gap-2"><span>{session.type}</span></div>
+                <div className="font-semibold text-blue-700 mb-1 flex items-center gap-2"><User className="w-4 h-4" /> Client/Group</div>
+                <div className="bg-white/70 rounded-lg p-3 mb-2 flex items-center gap-2"><span>{session.client}</span></div>
+              </div>
+              <div>
+                <div className="font-semibold text-blue-700 mb-1 flex items-center gap-2"><Badge className="bg-gradient-gentle-secondary/20 text-foreground" /> Status</div>
+                <div className="bg-white/70 rounded-lg p-3 mb-2 flex items-center gap-2"><span>{session.status}</span></div>
+                <div className="font-semibold text-blue-700 mb-1 flex items-center gap-2">Mood</div>
+                <div className="bg-white/70 rounded-lg p-3 mb-2 flex items-center gap-2 text-2xl">{session.mood}</div>
+              </div>
+            </div>
+            <div className="border-b border-blue-100 my-4" />
+            <div className="font-semibold text-blue-700 mb-2 flex items-center gap-2"><MessageCircle className="w-4 h-4" /> Notes</div>
+            <div className="bg-white/70 rounded-lg p-4 text-muted-foreground mb-6">Session notes and resources...</div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">Close</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </div>
     </Dialog>
   );
 }
 
 function SessionEditModal({ session, open, onClose }) {
-  const [date, setDate] = useState(session.date);
-  const [time, setTime] = useState(session.time);
+  const [date, setDate] = useState(session?.date || "");
+  const [time, setTime] = useState(session?.time || "");
+  
+  // Don't render if session is null
+  if (!session) return null;
+  
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit Session</DialogTitle>
-        </DialogHeader>
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Date</label>
-            <input type="date" className="w-full border rounded-md px-3 py-2" value={date} onChange={e => setDate(e.target.value)} />
+      <div className="bg-gradient-to-r from-blue-400 to-purple-400 p-[2px] rounded-2xl shadow-2xl">
+        <DialogContent className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 border-0 rounded-2xl shadow-2xl p-0">
+          <DialogHeader className="px-8 pt-8 pb-2">
+            <DialogTitle className="text-2xl font-bold text-blue-900 flex items-center gap-2"><Edit className="w-6 h-6 text-blue-400" /> Edit Session</DialogTitle>
+          </DialogHeader>
+          <div className="px-8 pb-8">
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Date</label>
+                <input 
+                  type="date" 
+                  className="w-full border-0 bg-white/90 rounded-lg px-3 py-2 shadow-soft focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none" 
+                  value={date} 
+                  onChange={e => setDate(e.target.value)} 
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Time</label>
+                <input 
+                  type="time" 
+                  className="w-full border-0 bg-white/90 rounded-lg px-3 py-2 shadow-soft focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none" 
+                  value={time} 
+                  onChange={e => setTime(e.target.value)} 
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">Cancel</Button>
+                <Button type="submit" className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">Save</Button>
+              </div>
+            </form>
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Time</label>
-            <input type="time" className="w-full border rounded-md px-3 py-2" value={time} onChange={e => setTime(e.target.value)} />
-          </div>
-          <Button type="submit" className="bg-luxury-pink">Save</Button>
-        </form>
-        <Button variant="outline" onClick={onClose}>Cancel</Button>
-      </DialogContent>
+        </DialogContent>
+      </div>
     </Dialog>
   );
 }
 
 function SessionDeleteModal({ session, open, onClose, onDelete }) {
+  // Don't render if session is null
+  if (!session) return null;
+  
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Delete Session?</DialogTitle>
-        </DialogHeader>
-        <div className="mb-4">Are you sure you want to delete this session? This action cannot be undone.</div>
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button variant="destructive" onClick={() => { onDelete(session.id); onClose(); }}>Delete</Button>
-        </DialogFooter>
-      </DialogContent>
+      <div className="bg-gradient-to-r from-blue-400 to-purple-400 p-[2px] rounded-2xl shadow-2xl">
+        <DialogContent className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 border-0 rounded-2xl shadow-2xl p-0">
+          <DialogHeader className="px-8 pt-8 pb-2">
+            <DialogTitle className="text-2xl font-bold text-blue-900 flex items-center gap-2"><Trash className="w-6 h-6 text-blue-400" /> Delete Session?</DialogTitle>
+          </DialogHeader>
+          <div className="px-8 pb-8">
+            <div className="mb-4 p-3 bg-gradient-gentle-warm/20 rounded-lg">
+              Are you sure you want to delete this session? This action cannot be undone.
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">Cancel</Button>
+              <Button variant="destructive" onClick={() => { onDelete(session.id); onClose(); }} className="bg-gradient-gentle-warm hover:bg-gradient-gentle-warm/90">
+                Delete
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </div>
     </Dialog>
   );
 }
@@ -96,44 +145,61 @@ function SessionDeleteModal({ session, open, onClose, onDelete }) {
 function SessionChatModal({ session, open, onClose }) {
   const [messages, setMessages] = useState([
     { id: 1, sender: "Coach", text: "Welcome to the session chat!", time: "09:00" },
-    { id: 2, sender: session.type === "Group" ? "Alice" : session.client, text: "Thank you!", time: "09:01" },
+    { id: 2, sender: session?.type === "Group" ? "Alice" : session?.client, text: "Thank you!", time: "09:01" },
   ]);
   const [input, setInput] = useState("");
+  
+  // Don't render if session is null
+  if (!session) return null;
+  
   const handleSend = () => {
     if (input.trim()) {
       setMessages([...messages, { id: messages.length + 1, sender: "Coach", text: input, time: "09:02" }]);
       setInput("");
     }
   };
+  
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Chat - {session.type === "Group" ? session.client : session.client}</DialogTitle>
-        </DialogHeader>
-        <div className="h-64 overflow-y-auto bg-muted rounded-lg p-4 mb-4 flex flex-col gap-2">
-          {messages.map(msg => (
-            <div key={msg.id} className={`flex ${msg.sender === "Coach" ? "justify-end" : "justify-start"}`}>
-              <div className={`rounded-lg px-3 py-2 ${msg.sender === "Coach" ? "bg-luxury-pink text-white" : "bg-white text-luxury-dark border"}`}>
-                <div className="text-xs font-semibold mb-1">{msg.sender}</div>
-                <div>{msg.text}</div>
-                <div className="text-[10px] text-muted-foreground mt-1 text-right">{msg.time}</div>
-              </div>
+      <div className="bg-gradient-to-r from-blue-400 to-purple-400 p-[2px] rounded-2xl shadow-2xl">
+        <DialogContent className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 border-0 rounded-2xl shadow-2xl p-0">
+          <DialogHeader className="px-8 pt-8 pb-2">
+            <DialogTitle className="text-2xl font-bold text-blue-900 flex items-center gap-2"><MessageCircle className="w-6 h-6 text-blue-400" /> Chat - {session.type === "Group" ? session.client : session.client}</DialogTitle>
+          </DialogHeader>
+          <div className="px-8 pb-8">
+            <div className="h-64 overflow-y-auto bg-gradient-gentle-neutral/20 rounded-lg p-4 mb-4 flex flex-col gap-3">
+              {messages.map(msg => (
+                <div key={msg.id} className={`flex ${msg.sender === "Coach" ? "justify-end" : "justify-start"}`}>
+                  <div className={`rounded-xl px-4 py-2 max-w-xs shadow-soft text-sm flex flex-col ${msg.sender === "Coach" ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white" : "bg-white/90 text-blue-900 border border-blue-100"}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <User className="w-4 h-4 text-blue-400" />
+                      <span className="font-semibold">{msg.sender}</span>
+                    </div>
+                    <div>{msg.text}</div>
+                    <div className="text-[10px] text-muted-foreground mt-1 text-right">{msg.time}</div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <input
-            className="flex-1 border rounded-md px-3 py-2"
-            placeholder="Type a message..."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter") handleSend(); }}
-          />
-          <Button onClick={handleSend} className="bg-luxury-pink">Send</Button>
-        </div>
-        <Button variant="outline" onClick={onClose} className="mt-4">Close</Button>
-      </DialogContent>
+            <form className="flex gap-2 mt-2" onSubmit={e => { e.preventDefault(); handleSend(); }}>
+              <input
+                className="flex-1 border-0 bg-white/90 rounded-lg px-3 py-2 shadow-soft focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
+                placeholder="Type a message..."
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter") handleSend(); }}
+              />
+              <Button type="submit" className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary flex items-center gap-1 px-4">
+                <Send className="w-4 h-4" />
+                Send
+              </Button>
+            </form>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">Close</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </div>
     </Dialog>
   );
 }
@@ -144,22 +210,44 @@ function ScheduleSessionModal({ open, onClose }) {
   const [time, setTime] = useState("");
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Schedule New Session</DialogTitle>
-        </DialogHeader>
-        <form className="space-y-4">
-          <select className="w-full border rounded-md px-3 py-2" value={type} onChange={e => setType(e.target.value)}>
-            <option value="">Select Group or Client...</option>
-            <option value="Group 3">Group 3</option>
-            <option value="1-1">1-1</option>
-          </select>
-          <input type="date" className="w-full border rounded-md px-3 py-2" value={date} onChange={e => setDate(e.target.value)} />
-          <input type="time" className="w-full border rounded-md px-3 py-2" value={time} onChange={e => setTime(e.target.value)} />
-          <Button type="submit" className="bg-luxury-pink">Schedule</Button>
-        </form>
-        <Button variant="outline" onClick={onClose}>Cancel</Button>
-      </DialogContent>
+      <div className="rounded-2xl">
+        <DialogContent className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 border-0 rounded-2xl shadow-2xl p-0">
+          <DialogHeader className="px-8 pt-8 pb-2">
+            <DialogTitle className="text-2xl font-bold text-blue-900 flex items-center gap-2"><Plus className="w-6 h-6 text-blue-400" /> Schedule New Session</DialogTitle>
+          </DialogHeader>
+          <div className="px-8 pb-8">
+            <form className="space-y-4">
+              <select 
+                className="w-full border-0 bg-gradient-gentle-neutral/30 rounded-lg px-3 py-2 shadow-soft" 
+                value={type} 
+                onChange={e => setType(e.target.value)}
+              >
+                <option value="">Select Group or Client...</option>
+                <option value="Group 3">Group 3</option>
+                <option value="1-1">1-1</option>
+              </select>
+              <input 
+                type="date" 
+                className="w-full border-0 bg-gradient-gentle-neutral/30 rounded-lg px-3 py-2 shadow-soft" 
+                value={date} 
+                onChange={e => setDate(e.target.value)} 
+              />
+              <input 
+                type="time" 
+                className="w-full border-0 bg-gradient-gentle-neutral/30 rounded-lg px-3 py-2 shadow-soft" 
+                value={time} 
+                onChange={e => setTime(e.target.value)} 
+              />
+              <Button type="submit" className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
+                Schedule
+              </Button>
+            </form>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">Cancel</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </div>
     </Dialog>
   );
 }
@@ -171,6 +259,7 @@ const Sessions = () => {
   const [viewSession, setViewSession] = useState(null);
   const [editSession, setEditSession] = useState(null);
   const [deleteSession, setDeleteSession] = useState(null);
+  const [chatSession, setChatSession] = useState(null);
   const [scheduleModal, setScheduleModal] = useState(false);
   const [sessions, setSessions] = useState([
     {
@@ -202,192 +291,200 @@ const Sessions = () => {
     },
     {
       id: 4,
-      date: "2024-05-06",
+      date: "2024-05-07",
+      client: "Group 1",
+      type: "Group",
+      time: "16:00",
+      status: "Scheduled",
+      mood: "😔"
+    },
+    {
+      id: 5,
+      date: "2024-05-08",
       client: "1-1",
       type: "Individual",
-      time: "14:00", 
+      time: "11:00",
       status: "Scheduled",
       mood: "😊"
+    },
+    {
+      id: 6,
+      date: "2024-05-09",
+      client: "Group 2",
+      type: "Group",
+      time: "15:00",
+      status: "Scheduled",
+      mood: "😐"
     }
   ]);
-  const monthDays = Array.from({ length: 31 }, (_, i) => i + 1)
+
+  const handleDeleteSession = (sessionId) => {
+    setSessions(sessions.filter(s => s.id !== sessionId));
+  };
+
+  const SessionCard = ({ session }) => (
+    <Card className="bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all duration-300">
+      <CardContent className="pt-6">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start space-x-3">
+            <div className="w-10 h-10 bg-gradient-gentle-primary rounded-full flex items-center justify-center shadow-soft">
+              {session.type === "Group" ? (
+                <Users className="w-5 h-5 text-white" />
+              ) : (
+                <User className="w-5 h-5 text-white" />
+              )}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center space-x-2 mb-1">
+                <span className="font-medium">{session.client}</span>
+                <Badge variant="secondary" className="bg-gradient-gentle-secondary/20 text-foreground">
+                  {session.type}
+                </Badge>
+              </div>
+              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                <div className="flex items-center space-x-1">
+                  <CalendarIcon className="w-4 h-4" />
+                  <span>{session.date}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Clock className="w-4 h-4" />
+                  <span>{session.time}</span>
+                </div>
+                <span className="text-2xl">{session.mood}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="p-2 hover:bg-gradient-gentle-primary/20" 
+              onClick={() => setViewSession(session)}
+            >
+              <Eye className="w-4 h-4" />
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="p-2 hover:bg-gradient-gentle-primary/20" 
+              onClick={() => setEditSession(session)}
+            >
+              <Edit className="w-4 h-4" />
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="p-2 hover:bg-gradient-gentle-primary/20" 
+              onClick={() => setChatSession(session)}
+            >
+              <MessageCircle className="w-4 h-4" />
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="p-2 hover:bg-gradient-gentle-warm/20" 
+              onClick={() => setDeleteSession(session)}
+            >
+              <Trash className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  // 1. Compute scheduledDates from sessions
+  const scheduledDates = sessions.map(s => new Date(s.date));
+
+  // 2. Calendar modifiers for scheduled days
+  const calendarModifiers = {
+    scheduled: scheduledDates
+  };
+  const calendarModifiersClassNames = {
+    scheduled: 'bg-gradient-to-r from-blue-400 to-purple-400 !text-blue-900 !text-black font-bold border-2 border-blue-500',
+    selected: '!text-blue-900 !text-black font-bold',
+  };
+
+  // 3. Calendar onSelect handler
+  const handleCalendarSelect = (selectedDate) => {
+    setDate(selectedDate);
+    const found = sessions.find(s => new Date(s.date).toDateString() === selectedDate?.toDateString());
+    if (found) setViewSession(found);
+  };
 
   return (
-    <div className="min-h-screen bg-luxury-background p-6">
+    <div className="min-h-screen bg-gradient-gentle-neutral bg-pattern-subtle p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-luxury-dark">Sessions</h1>
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === "list" ? "default" : "outline"}
-              onClick={() => setViewMode("list")}
-              className={viewMode === "list" ? "bg-luxury-pink hover:bg-luxury-pink/90" : ""}
-            >
-              List View
-            </Button>
-            <Button
-              variant={viewMode === "calendar" ? "default" : "outline"}
-              onClick={() => setViewMode("calendar")}
-              className={viewMode === "calendar" ? "bg-luxury-pink hover:bg-luxury-pink/90" : ""}
-            >
-              Calendar View
-            </Button>
-            <Button className="bg-luxury-pink hover:bg-luxury-pink/90" onClick={() => setScheduleModal(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Schedule Session
-            </Button>
-          </div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Sessions
+          </h1>
+          <Button 
+            className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary"
+            onClick={() => setScheduleModal(true)}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Schedule Session
+          </Button>
         </div>
-        <ScheduleSessionModal open={scheduleModal} onClose={() => setScheduleModal(false)} />
-        {viewMode === "list" ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Upcoming Sessions */}
-            <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-luxury-dark">Upcoming Sessions This Month</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4 max-h-[500px] overflow-y-auto">
-                    {sessions.map((session) => (
-                      <div key={session.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50">
-                        <div className="flex items-center space-x-4">
-                          <div className="text-center">
-                            <div className="text-sm font-medium text-luxury-dark">{session.date}</div>
-                            <div className="text-xs text-muted-foreground">{session.time}</div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            {session.type === "Group" ? (
-                              <Users className="w-4 h-4 text-muted-foreground" />
-                            ) : (
-                              <User className="w-4 h-4 text-muted-foreground" />
-                            )}
-                            <span className="font-medium">{session.client}</span>
-                          </div>
-                          <div className="text-xl">{session.mood}</div>
-                          <Badge variant="secondary" className="bg-green-100 text-green-700">
-                            {session.status}
-                          </Badge>
-                        </div>
-                        <div className="flex space-x-2">
-                          <Button size="sm" variant="ghost" onClick={() => setViewSession(session)}>
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="ghost" onClick={() => setEditSession(session)}>
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="ghost" onClick={() => router.push(`/coach/sessions/${session.id}/chat`)}>
-                            <MessageCircle className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="ghost" onClick={() => setDeleteSession(session)}>
-                            <Trash className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
-            {/* Mini Calendar */}
-            <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-luxury-dark">Calendar</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md"
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        ) : (
-          /* Calendar View */
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-luxury-dark flex items-center">
-                <CalendarIcon className="w-5 h-5 mr-2" />
-                May 2024 - Week/Month View
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-7 gap-2 mb-4">
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                  <div key={day} className="text-center font-medium text-muted-foreground p-2">
-                    {day}
-                  </div>
+
+          {/* Sessions List */}
+          <div className="lg:col-span-2">
+            <Card className="bg-gradient-card shadow-soft border-0">
+              <CardHeader>
+                <CardTitle>Upcoming Sessions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {sessions.map((session) => (
+                  <SessionCard key={session.id} session={session} />
                 ))}
-              </div>
-              <div className="grid grid-cols-7 gap-2">
-                {monthDays.map((day) => (
-                  <div key={day} className="border rounded-lg p-2 h-24 hover:bg-muted/50">
-                    <div className="text-sm font-medium mb-1">{day}</div>
-                    {/* Sample sessions on specific days */}
-                    {(day === 5 || day === 13 || day === 20) && (
-                      <div className="text-xs bg-luxury-pink/20 rounded px-1 py-0.5 mb-1">
-                        Session
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        {viewSession && (
-          <SessionViewModal session={viewSession} open={!!viewSession} onClose={() => setViewSession(null)} />
-        )}
-        {editSession && (
-          <SessionEditModal session={editSession} open={!!editSession} onClose={() => setEditSession(null)} />
-        )}
-        {deleteSession && (
-          <SessionDeleteModal session={deleteSession} open={!!deleteSession} onClose={() => setDeleteSession(null)} onDelete={id => setSessions(sessions.filter(s => s.id !== id))} />
-        )}
-        {/* Session Statistics */}
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold text-luxury-dark mb-6">Session Statistics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-luxury-pink mb-2">24</div>
-                  <div className="text-muted-foreground">Total Sessions</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-luxury-gold mb-2">18</div>
-                  <div className="text-muted-foreground">Completed</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-luxury-dark mb-2">6</div>
-                  <div className="text-muted-foreground">Upcoming</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-destructive mb-2">2</div>
-                  <div className="text-muted-foreground">Cancelled</div>
-                </div>
               </CardContent>
             </Card>
           </div>
-        </div>
+          
+          <div>
+          <div className="lg:col-span-1 mt-[20px] flex">
+            <Card className="bg-gradient-card shadow-none border-0 w-full max-w-xl mx-auto">
+              <CardHeader>
+                <CardTitle>Calendar</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={handleCalendarSelect}
+                  className="rounded-md border-0 bg-gradient-gentle-neutral/20 text-base min-w-[420px] min-h-[420px]"
+                  modifiers={calendarModifiers}
+                  modifiersClassNames={calendarModifiersClassNames}
+                  style={{ '--cell-size': '56px' }}
+                />
+              </CardContent>
+            </Card>
+          </div>
+          </div>
+
+
       </div>
+
+      {viewSession && (
+        <SessionViewModal session={viewSession} open={true} onClose={() => setViewSession(null)} />
+      )}
+      <SessionEditModal 
+        session={editSession} 
+        open={!!editSession} 
+        onClose={() => setEditSession(null)} 
+      />
+      <SessionDeleteModal 
+        session={deleteSession} 
+        open={!!deleteSession} 
+        onClose={() => setDeleteSession(null)} 
+        onDelete={handleDeleteSession}
+      />
+      <ScheduleSessionModal 
+        open={scheduleModal} 
+        onClose={() => setScheduleModal(false)} 
+      />
     </div>
   )
 }

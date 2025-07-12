@@ -131,11 +131,11 @@ export const MobileApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background1 flex flex-col max-w-md mx-auto relative">
+    <div className="min-h-screen bg-background1 bg-pattern-subtle flex flex-col max-w-md mx-auto relative">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-card1 border-b border-border">
+      <div className="flex items-center justify-between p-4 bg-card1 border-b border-border shadow-component">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-primary1 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-gradient-gentle-primary flex items-center justify-center shadow-card hover-lift">
             <span className="text-sm font-semibold text-primary-foreground1">JD</span>
           </div>
           <div>
@@ -148,18 +148,18 @@ export const MobileApp = () => {
           <Button 
             size="sm" 
             variant="ghost" 
-            className="h-8 w-8 p-0 relative"
+            className="h-8 w-8 p-0 relative bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/50 hover-lift"
             onClick={() => setIsNotificationOpen(true)}
           >
             <Bell className="w-4 h-4" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive1 rounded-full flex items-center justify-center">
-              <span className="text-xs text-destructive-foreground1 font-bold">2</span>
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-gentle-warm rounded-full flex items-center justify-center shadow-card animate-gentle-pulse">
+              <span className="text-xs text-white font-bold">2</span>
             </div>
           </Button>
           <Button 
             size="sm" 
             variant="ghost" 
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/50 hover-lift"
             onClick={() => setIsProfileOpen(true)}
           >
             <User className="w-4 h-4" />
@@ -168,7 +168,7 @@ export const MobileApp = () => {
             <Button 
               size="sm" 
               variant="ghost" 
-              className="h-8 w-8 p-0"
+              className="h-8 w-8 p-0 bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/50 hover-lift"
               onClick={() => setIsSettingsOpen(!isSettingsOpen)}
             >
               <Settings className="w-4 h-4" />
@@ -214,17 +214,12 @@ export const MobileApp = () => {
       />
 
       {/* Calendar Booking */}
-      {isBookingOpen && (
-        <CalendarBooking
-          onClose={() => setIsBookingOpen(false)}
-          onBook={handleBookSession}
-          isReschedule={bookingMode === "reschedule"}
-          currentBooking={bookingMode === "reschedule" ? {
-            date: new Date(Date.now() + 86400000),
-            time: "2:00 PM"
-          } : undefined}
-        />
-      )}
+      {/* <CalendarBooking
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        onBook={handleBookSession}
+        mode={bookingMode}
+      /> */}
     </div>
   )
 }

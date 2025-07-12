@@ -50,9 +50,9 @@ export const TodayScreen = ({ currentDate, onDateChange }) => {
   const progressPercentage = Math.round((completedTasks / tasks.length) * 100)
 
   return (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-20 bg-background1">
       {/* Header with day navigation */}
-      <div className="bg-gradient-card border-b border-border">
+      <div className="bg-card1 border-b border-border">
         <DayNavigation currentDate={currentDate} onDateChange={onDateChange} />
       </div>
 

@@ -84,9 +84,9 @@ export const CirclesScreen = ({ onJoinChat, onJoinSession }) => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-20 bg-background1">
       {/* Header */}
-      <div className="bg-gradient-card1 border-b border-border p-6">
+      <div className="bg-card1 border-b border-border p-6 shadow-soft rounded-t-xl">
         <h1 className="text-2xl font-bold text-foreground1 mb-2">Wellness Circles</h1>
         <p className="text-muted-foreground1">Connect with others on similar wellness journeys</p>
       </div>
@@ -97,7 +97,7 @@ export const CirclesScreen = ({ onJoinChat, onJoinSession }) => {
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-foreground1">Your Circles</h2>
             {joinedCircles.map((circle) => (
-              <div key={circle.id} className="p-4 rounded-xl bg-card1 border border-border shadow-soft">
+              <div key={circle.id} className="p-4 rounded-xl bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-3">
                     <div className={`w-12 h-12 rounded-full ${circle.color} flex items-center justify-center`}>
@@ -164,7 +164,7 @@ export const CirclesScreen = ({ onJoinChat, onJoinSession }) => {
           <h2 className="text-lg font-semibold text-foreground1">Discover Circles</h2>
           <div className="space-y-4">
             {availableCircles.map((circle) => (
-              <div key={circle.id} className="p-4 rounded-xl bg-card1 border border-border shadow-soft">
+              <div key={circle.id} className="p-4 rounded-xl bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-3">
                     <div className={`w-12 h-12 rounded-full ${circle.color} flex items-center justify-center`}>

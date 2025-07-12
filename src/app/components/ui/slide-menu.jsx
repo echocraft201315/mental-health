@@ -80,7 +80,7 @@ export const SlideMenu = ({ isOpen, onClose, onOptionSelect }) => {
                     onOptionSelect(option.id)
                     onClose()
                   }}
-                  className="w-full p-4 rounded-xl bg-card1 hover:bg-muted1/50 border border-border transition-all duration-200 hover:scale-[1.02] hover:shadow-soft text-left group"
+                  className="w-full p-4 rounded-xl bg-card1 hover:bg-muted1/50 border border-border transition-all duration-300 hover:scale-[1.02] hover:shadow-card hover-lift text-left group"
                 >
                   <div className="flex items-start space-x-4">
                     <div className={cn(

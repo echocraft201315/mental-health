@@ -5,18 +5,18 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/app/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+  "hover-lift inline-flex items-center justify-center rounded-lg border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-blue-600 focus-visible:ring-blue-600/30 focus-visible:ring-[2px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-all duration-300 ease-in-out overflow-hidden shadow-card",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+          "border-transparent bg-gradient-gentle-primary text-white [a&]:hover:bg-gradient-gentle-secondary transform hover:scale-105",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
+          "border-transparent bg-gradient-gentle-secondary text-secondary-foreground [a&]:hover:bg-gradient-gentle-secondary/90 transform hover:scale-105",
         destructive:
-          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "border-transparent bg-gradient-gentle-warm text-white [a&]:hover:bg-gradient-gentle-warm/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 transform hover:scale-105",
         outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+          "text-foreground bg-gradient-gentle-neutral/50 [a&]:hover:bg-gradient-gentle-accent/20 [a&]:hover:text-accent-foreground transform hover:scale-105",
       },
     },
     defaultVariants: {

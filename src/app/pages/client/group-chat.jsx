@@ -55,7 +55,7 @@ export const GroupChat = ({ onBack, groupName }) => {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-full">
+    <div className="flex-1 flex flex-col h-full bg-background1">
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-card1 border-b border-border">
         <div className="flex items-center space-x-3">

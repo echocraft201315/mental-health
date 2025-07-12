@@ -88,12 +88,14 @@ const Help = () => {
   )
 
   return (
-    <div className="min-h-screen bg-luxury-background p-6">
+    <div className="min-h-screen bg-gradient-gentle-neutral bg-pattern-subtle p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-luxury-dark mb-8">Help & Support</h1>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-8">
+          Help & Support
+        </h1>
 
         {/* Search */}
-        <Card className="mb-8">
+        <Card className="mb-8 bg-gradient-card shadow-soft border-0">
           <CardContent className="pt-6">
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -101,7 +103,7 @@ const Help = () => {
                 placeholder="Search for help articles, tutorials, or FAQs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-gradient-gentle-neutral/30 border-0 shadow-soft"
               />
             </div>
           </CardContent>
@@ -109,40 +111,46 @@ const Help = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="hover:shadow-medium transition-all duration-300 cursor-pointer bg-gradient-card shadow-soft border-0">
             <CardContent className="pt-6 text-center">
-              <MessageCircle className="w-12 h-12 text-luxury-pink mx-auto mb-4" />
+              <div className="w-12 h-12 bg-gradient-gentle-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="w-6 h-6 text-white" />
+              </div>
               <h3 className="font-semibold mb-2">Live Chat</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Get instant help from our support team
               </p>
-              <Button className="bg-luxury-pink hover:bg-luxury-pink/90">
+              <Button className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
                 Start Chat
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="hover:shadow-medium transition-all duration-300 cursor-pointer bg-gradient-card shadow-soft border-0">
             <CardContent className="pt-6 text-center">
-              <Mail className="w-12 h-12 text-luxury-gold mx-auto mb-4" />
+              <div className="w-12 h-12 bg-gradient-gentle-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-6 h-6 text-white" />
+              </div>
               <h3 className="font-semibold mb-2">Email Support</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Send us a detailed message
               </p>
-              <Button variant="outline">
+              <Button variant="outline" className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
                 Send Email
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="hover:shadow-medium transition-all duration-300 cursor-pointer bg-gradient-card shadow-soft border-0">
             <CardContent className="pt-6 text-center">
-              <Phone className="w-12 h-12 text-luxury-dark mx-auto mb-4" />
+              <div className="w-12 h-12 bg-gradient-gentle-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                <Phone className="w-6 h-6 text-white" />
+              </div>
               <h3 className="font-semibold mb-2">Phone Support</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Call us at +1 (555) 123-HELP
               </p>
-              <Button variant="outline">
+              <Button variant="outline" className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
                 Call Now
               </Button>
             </CardContent>
@@ -150,16 +158,16 @@ const Help = () => {
         </div>
 
         {/* Learning Resources */}
-        <Card className="mb-8">
+        <Card className="mb-8 bg-gradient-card shadow-soft border-0">
           <CardHeader>
-            <CardTitle className="text-luxury-dark">Learning Resources</CardTitle>
+            <CardTitle>Learning Resources</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {resources.map((resource, index) => (
-                <div key={index} className="flex items-center p-4 border rounded-lg hover:bg-muted/50 cursor-pointer">
-                  <div className="p-3 bg-luxury-pink/10 rounded-lg mr-4">
-                    <resource.icon className="w-6 h-6 text-luxury-pink" />
+                <div key={index} className="flex items-center p-4 bg-gradient-gentle-neutral/20 rounded-lg hover:bg-gradient-gentle-neutral/30 cursor-pointer transition-all duration-300">
+                  <div className="p-3 bg-gradient-gentle-primary/20 rounded-lg mr-4">
+                    <resource.icon className="w-6 h-6 text-foreground" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-medium">{resource.title}</h4>
@@ -173,9 +181,9 @@ const Help = () => {
         </Card>
 
         {/* FAQ Section */}
-        <Card>
+        <Card className="bg-gradient-card shadow-soft border-0">
           <CardHeader>
-            <CardTitle className="text-luxury-dark flex items-center">
+            <CardTitle className="flex items-center">
               <HelpCircle className="w-5 h-5 mr-2" />
               Frequently Asked Questions
             </CardTitle>
@@ -184,11 +192,11 @@ const Help = () => {
             {filteredFaqs.length > 0 ? (
               <Accordion type="single" collapsible className="w-full">
                 {filteredFaqs.map((faq) => (
-                  <AccordionItem key={faq.id} value={faq.id}>
-                    <AccordionTrigger className="text-left">
+                  <AccordionItem key={faq.id} value={faq.id} className="border-b border-gradient-gentle-neutral/30">
+                    <AccordionTrigger className="text-left hover:bg-gradient-gentle-neutral/10 rounded-lg px-4 py-2 transition-all duration-300">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">
+                    <AccordionContent className="text-muted-foreground px-4 py-2">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -199,7 +207,7 @@ const Help = () => {
                 <p className="text-muted-foreground">No results found for "{searchQuery}"</p>
                 <Button 
                   variant="outline" 
-                  className="mt-4"
+                  className="mt-4 bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20"
                   onClick={() => setSearchQuery("")}
                 >
                   Clear Search
@@ -210,22 +218,24 @@ const Help = () => {
         </Card>
 
         {/* Contact Info */}
-        <Card className="mt-8">
+        <Card className="mt-8 bg-gradient-card shadow-soft border-0">
           <CardHeader>
-            <CardTitle className="text-luxury-dark">Still Need Help?</CardTitle>
+            <CardTitle>Still Need Help?</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+              <div className="p-4 bg-gradient-gentle-neutral/20 rounded-lg">
                 <h4 className="font-medium mb-2">Support Hours</h4>
                 <p className="text-sm text-muted-foreground mb-1">Monday - Friday: 9AM - 6PM EST</p>
                 <p className="text-sm text-muted-foreground mb-1">Saturday: 10AM - 4PM EST</p>
                 <p className="text-sm text-muted-foreground">Sunday: Closed</p>
               </div>
-              <div>
+              <div className="p-4 bg-gradient-gentle-warm/20 rounded-lg">
                 <h4 className="font-medium mb-2">Emergency Contact</h4>
                 <p className="text-sm text-muted-foreground mb-1">For urgent technical issues:</p>
-                <p className="text-sm font-medium text-luxury-pink">+1 (555) 911-HELP</p>
+                <p className="text-sm font-medium bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
+                  +1 (555) 911-HELP
+                </p>
                 <p className="text-sm text-muted-foreground">Available 24/7</p>
               </div>
             </div>

@@ -19,18 +19,33 @@ import { useEffect } from "react";
 
 function TaskEditModal({ task, open, onClose, onSave }) {
   const [value, setValue] = useState(task?.task || "");
-  useEffect(() => { setValue(task?.task || ""); }, [task]);
+  
+  useEffect(() => { 
+    setValue(task?.task || ""); 
+  }, [task]);
+  
+  // Don't render if task is null
+  if (!task) return null;
+  
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent>
+      <DialogContent className="bg-gradient-card shadow-soft border-0">
         <DialogHeader>
           <DialogTitle>Edit Task</DialogTitle>
         </DialogHeader>
         <form className="space-y-4" onSubmit={e => { e.preventDefault(); onSave({ ...task, task: value }); onClose(); }}>
-          <input className="w-full border rounded-md px-3 py-2" value={value} onChange={e => setValue(e.target.value)} />
+          <input 
+            className="w-full border-0 bg-gradient-gentle-neutral/30 rounded-lg px-3 py-2 shadow-soft" 
+            value={value} 
+            onChange={e => setValue(e.target.value)} 
+          />
           <DialogFooter>
-            <Button variant="outline" onClick={onClose}>Cancel</Button>
-            <Button type="submit" className="bg-luxury-pink">Save</Button>
+            <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
+              Cancel
+            </Button>
+            <Button type="submit" className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
+              Save
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -39,22 +54,35 @@ function TaskEditModal({ task, open, onClose, onSave }) {
 }
 
 function TaskDetailsModal({ task, open, onClose }) {
+  // Don't render if task is null
+  if (!task) return null;
+  
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent>
+      <DialogContent className="bg-gradient-card shadow-soft border-0">
         <DialogHeader>
           <DialogTitle>Task Details</DialogTitle>
         </DialogHeader>
-        <div className="mb-4">
-          <div><b>Task:</b> {task.task}</div>
-          {task.client && <div><b>Client:</b> {task.client}</div>}
-          <div><b>Status:</b> {task.status}</div>
-          <div><b>Priority:</b> {task.priority}</div>
-          <div className="mt-2"><b>Comments:</b> No comments yet.</div>
-          <div className="mt-2"><b>Activity Log:</b> Created, last updated...</div>
+        <div className="mb-4 space-y-2">
+          <div className="p-3 bg-gradient-gentle-neutral/20 rounded-lg">
+            <div><b>Task:</b> {task.task}</div>
+            {task.client && <div><b>Client:</b> {task.client}</div>}
+            <div><b>Status:</b> {task.status}</div>
+            <div><b>Priority:</b> {task.priority}</div>
+          </div>
+          <div className="p-3 bg-gradient-gentle-neutral/20 rounded-lg">
+            <div className="mb-2"><b>Comments:</b></div>
+            <div className="text-sm text-muted-foreground">No comments yet.</div>
+          </div>
+          <div className="p-3 bg-gradient-gentle-neutral/20 rounded-lg">
+            <div className="mb-2"><b>Activity Log:</b></div>
+            <div className="text-sm text-muted-foreground">Created, last updated...</div>
+          </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Close</Button>
+          <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -64,20 +92,22 @@ function TaskDetailsModal({ task, open, onClose }) {
 function ViewAllModal({ tasks, open, onClose }) {
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl bg-gradient-card shadow-soft border-0">
         <DialogHeader>
           <DialogTitle>All Open Tasks</DialogTitle>
         </DialogHeader>
         <div className="max-h-96 overflow-y-auto space-y-2">
           {tasks.map(task => (
-            <div key={task.id} className="p-3 border rounded flex items-center gap-3">
+            <div key={task.id} className="p-3 bg-gradient-gentle-neutral/20 rounded-lg flex items-center gap-3 hover:bg-gradient-gentle-neutral/30 transition-all duration-300">
               <span className="font-medium">{task.task}</span>
               {task.client && <span className="text-xs text-muted-foreground ml-2">({task.client})</span>}
             </div>
           ))}
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Close</Button>
+          <Button variant="outline" onClick={onClose} className="bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20">
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -116,12 +146,12 @@ const Tasks = () => {
   };
 
   const TaskCard = ({ task, isClientTask = false }) => (
-    <Card className="mb-4">
+    <Card className="mb-4 bg-gradient-card shadow-soft border-0">
       <CardContent className="pt-6">
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
             <button
-              className="mt-1 focus:outline-none"
+              className="mt-1 focus:outline-none transition-all duration-300 hover:scale-110"
               onClick={() => handleToggleTask(task, isClientTask)}
               aria-label={task.status === "completed" ? "Completed" : "Mark as completed"}
             >
@@ -134,12 +164,12 @@ const Tasks = () => {
             <div className="flex-1">
               {isClientTask && (
                 <div className="flex items-center space-x-2 mb-1">
-                  <div className="w-6 h-6 bg-luxury-pink/20 rounded-full flex items-center justify-center">
-                    <span className="text-xs text-luxury-pink font-medium">
+                  <div className="w-6 h-6 bg-gradient-gentle-primary rounded-full flex items-center justify-center shadow-soft">
+                    <span className="text-xs text-white font-medium">
                       {task.client?.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-luxury-dark">{task.client}</span>
+                  <span className="text-sm font-medium">{task.client}</span>
                 </div>
               )}
               <p className={`${task.status === "completed" ? "line-through text-muted-foreground" : "text-foreground"}`}>
@@ -148,21 +178,31 @@ const Tasks = () => {
               <div className="flex items-center space-x-2 mt-2">
                 <Badge 
                   variant={task.priority === "high" ? "destructive" : "secondary"}
-                  className={task.priority === "high" ? "" : "bg-luxury-gold/20 text-luxury-dark"}
+                  className={task.priority === "high" ? "bg-gradient-gentle-warm" : "bg-gradient-gentle-accent/20 text-foreground"}
                 >
                   {task.priority}
                 </Badge>
-                <Badge variant="outline">
+                <Badge variant="outline" className="bg-gradient-gentle-neutral/50">
                   {task.status}
                 </Badge>
               </div>
             </div>
           </div>
           <div className="flex space-x-2">
-            <Button size="sm" variant="ghost" className="p-2" onClick={() => setEditTask({ ...task, isClientTask })}>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="p-2 hover:bg-gradient-gentle-primary/20" 
+              onClick={() => setEditTask({ ...task, isClientTask })}
+            >
               <Edit className="w-4 h-4" />
             </Button>
-            <Button size="sm" variant="ghost" className="p-2" onClick={() => setDetailsTask({ ...task, isClientTask })}>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="p-2 hover:bg-gradient-gentle-primary/20" 
+              onClick={() => setDetailsTask({ ...task, isClientTask })}
+            >
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </div>
@@ -180,11 +220,13 @@ const Tasks = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-luxury-background p-6">
+    <div className="min-h-screen bg-gradient-gentle-neutral bg-pattern-subtle p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-luxury-dark">Tasks</h1>
-          <Button className="bg-luxury-pink hover:bg-luxury-pink/90">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Tasks
+          </h1>
+          <Button className="bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary">
             <Plus className="w-4 h-4 mr-2" />
             Add Task
           </Button>
@@ -192,107 +234,100 @@ const Tasks = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Client Tasks */}
-          <Card>
+          <Card className="bg-gradient-card shadow-soft border-0">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-luxury-dark">Client Tasks</CardTitle>
-                <Button size="sm" variant="ghost">
+                <CardTitle>Client Tasks</CardTitle>
+                <Button size="sm" variant="ghost" className="hover:bg-gradient-gentle-primary/20">
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="open" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="open">Open Tasks</TabsTrigger>
-                  <TabsTrigger value="closed">Closed</TabsTrigger>
-                </TabsList>
-                <TabsContent value="open" className="mt-4">
-                  {clientTasks.filter(task => task.status === "open").map((task) => (
-                    <TaskCard key={task.id} task={task} isClientTask={true} />
-                  ))}
-                </TabsContent>
-                <TabsContent value="closed" className="mt-4">
-                  {clientTasks.filter(task => task.status === "completed").map((task) => (
-                    <TaskCard key={task.id} task={task} isClientTask={true} />
-                  ))}
-                </TabsContent>
-              </Tabs>
-              <Button variant="outline" className="w-full mt-4" onClick={() => setViewAllOpen(true)}>
-                View all
+              {clientTasks.map(task => (
+                <TaskCard key={task.id} task={task} isClientTask={true} />
+              ))}
+              <Button 
+                variant="outline" 
+                className="w-full bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20"
+                onClick={() => setViewAllOpen(true)}
+              >
+                View All Open Tasks
               </Button>
             </CardContent>
           </Card>
 
           {/* My Tasks */}
-          <Card>
+          <Card className="bg-gradient-card shadow-soft border-0">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-luxury-dark">My Tasks</CardTitle>
-                <Button size="sm" variant="ghost">
+                <CardTitle>My Tasks</CardTitle>
+                <Button size="sm" variant="ghost" className="hover:bg-gradient-gentle-primary/20">
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="open" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="open">Open Tasks</TabsTrigger>
-                  <TabsTrigger value="closed">Closed</TabsTrigger>
-                </TabsList>
-                <TabsContent value="open" className="mt-4">
-                  {myTasks.filter(task => task.status === "open").map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                  ))}
-                </TabsContent>
-                <TabsContent value="closed" className="mt-4">
-                  {myTasks.filter(task => task.status === "completed").map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                  ))}
-                </TabsContent>
-              </Tabs>
-              <Button variant="outline" className="w-full mt-4" onClick={() => setViewAllOpen(true)}>
-                View all
-              </Button>
+              {myTasks.map(task => (
+                <TaskCard key={task.id} task={task} isClientTask={false} />
+              ))}
             </CardContent>
           </Card>
         </div>
 
-        {/* Task Overview Chart */}
-        <Card>
+        {/* Task Analytics */}
+        <Card className="bg-gradient-card shadow-soft border-0">
           <CardHeader>
-            <CardTitle className="text-luxury-dark">Task Overview</CardTitle>
+            <CardTitle>Task Completion Analytics</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 flex items-end justify-center space-x-8">
-              {chartData.map((item, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <div className="flex gap-1">
+            <div className="h-64 flex items-end justify-center space-x-2">
+              {chartData.map((data, index) => (
+                <div key={index} className="flex flex-col items-center space-y-2">
+                  <div className="flex space-x-1 items-end h-52">
                     <div
-                      className="bg-luxury-pink rounded-t-sm w-6 transition-all hover:bg-primary1/80"
-                      style={{ height: `${item.client * 2}px` }}
-                      title={`Client tasks: ${item.client}`}
+                      className="w-8 bg-gradient-gentle-primary rounded-t-sm transition-all hover:bg-gradient-gentle-secondary shadow-soft"
+                      style={{ height: `${(data.client / 100) * 200}px` }}
                     />
                     <div
-                      className="bg-luxury-gold rounded-t-sm w-6 transition-all hover:bg-accent/80"
-                      style={{ height: `${item.coach * 2}px` }}
-                      title={`Coach tasks: ${item.coach}`}
+                      className="w-8 bg-gradient-gentle-secondary rounded-t-sm transition-all hover:bg-gradient-gentle-primary shadow-soft"
+                      style={{ height: `${(data.coach / 100) * 200}px` }}
                     />
                   </div>
-                  <span className="text-sm text-muted-foreground mt-2">{item.month}</span>
+                  <span className="text-xs text-muted-foreground">{data.month}</span>
                 </div>
               ))}
             </div>
+            <div className="flex justify-center space-x-6 mt-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-gradient-gentle-primary rounded"></div>
+                <span className="text-sm text-muted-foreground">Client Tasks</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-gradient-gentle-secondary rounded"></div>
+                <span className="text-sm text-muted-foreground">Coach Tasks</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
-        {editTask && (
-          <TaskEditModal task={editTask} open={!!editTask} onClose={() => setEditTask(null)} onSave={t => handleEditTask(t, editTask?.isClientTask)} />
-        )}
-        {detailsTask && (
-          <TaskDetailsModal task={detailsTask} open={!!detailsTask} onClose={() => setDetailsTask(null)} />
-        )}
-        <ViewAllModal tasks={[...clientTasks.filter(t => t.status === "open"), ...myTasks.filter(t => t.status === "open")]} open={viewAllOpen} onClose={() => setViewAllOpen(false)} />
       </div>
+
+      <TaskEditModal 
+        task={editTask} 
+        open={!!editTask} 
+        onClose={() => setEditTask(null)} 
+        onSave={handleEditTask}
+      />
+      <TaskDetailsModal 
+        task={detailsTask} 
+        open={!!detailsTask} 
+        onClose={() => setDetailsTask(null)} 
+      />
+      <ViewAllModal 
+        tasks={clientTasks.filter(t => t.status === "open")} 
+        open={viewAllOpen} 
+        onClose={() => setViewAllOpen(false)} 
+      />
     </div>
   )
 }

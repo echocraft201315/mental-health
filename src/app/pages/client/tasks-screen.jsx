@@ -73,7 +73,7 @@ export const TasksScreen = ({ onBack }) => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-20 bg-background1">
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center space-x-4">

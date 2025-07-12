@@ -22,10 +22,10 @@ export const JournalScreen = ({ onBack }) => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-20 bg-background1">
       <div className="p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 mb-6">
           <Button variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>

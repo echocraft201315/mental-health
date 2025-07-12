@@ -29,9 +29,9 @@ export const LiveSession = ({ onBack, sessionTitle }) => {
   ]
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-foreground1/5">
+    <div className="flex-1 flex flex-col h-full bg-background1">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-card1 border-b border-border">
+      <div className="flex items-center justify-between p-4 bg-card1 border-b border-border shadow-soft rounded-t-xl">
         <div className="flex items-center space-x-3">
           <Button variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />

@@ -85,11 +85,11 @@ const Clients = () => {
   ]
 
   const stages = [
-    { id: "new-lead", title: "New Leads", color: "bg-blue-100 border-blue-200" },
-    { id: "follow-up", title: "Follow Up", color: "bg-yellow-100 border-yellow-200" },
-    { id: "session-booked", title: "Session Booked", color: "bg-green-100 border-green-200" },
-    { id: "completed", title: "Completed", color: "bg-purple-100 border-purple-200" },
-    { id: "churned", title: "Churned", color: "bg-red-100 border-red-200" }
+    { id: "new-lead", title: "New Leads", color: "bg-gradient-gentle-primary/20 border-gradient-gentle-primary/30" },
+    { id: "follow-up", title: "Follow Up", color: "bg-gradient-gentle-accent/20 border-gradient-gentle-accent/30" },
+    { id: "session-booked", title: "Session Booked", color: "bg-gradient-gentle-secondary/20 border-gradient-gentle-secondary/30" },
+    { id: "completed", title: "Completed", color: "bg-gradient-gentle-cool/20 border-gradient-gentle-cool/30" },
+    { id: "churned", title: "Churned", color: "bg-gradient-gentle-warm/20 border-gradient-gentle-warm/30" }
   ]
 
   const filteredClients = clients.filter(client =>
@@ -102,12 +102,14 @@ const Clients = () => {
   }
 
   return (
-    <div className="min-h-screen bg-luxury-background p-6">
+    <div className="min-h-screen bg-gradient-gentle-neutral bg-pattern-subtle p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-luxury-dark mb-8">Clients</h1>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-8">
+          Clients
+        </h1>
         
         {/* Search and Filter */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-gradient-card shadow-soft border-0">
           <CardContent className="pt-6">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
@@ -116,30 +118,30 @@ const Clients = () => {
                   placeholder="Search clients..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 bg-gradient-gentle-neutral/30 border-0 shadow-soft"
                 />
               </div>
               <div className="flex gap-2">
                 <Button
                   variant={filterStatus === "all" ? "default" : "outline"}
                   onClick={() => setFilterStatus("all")}
-                  className="bg-luxury-pink hover:bg-luxury-pink/90"
+                  className={filterStatus === "all" ? "bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary" : "bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20"}
                 >
                   All
                 </Button>
                 <Button
                   variant={filterStatus === "active" ? "default" : "outline"}
                   onClick={() => setFilterStatus("active")}
-                  className="bg-luxury-pink hover:bg-luxury-pink/90 text-white hover:text-white"
+                  className={filterStatus === "active" ? "bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary" : "bg-gradient-gentle-neutral/50 hover:bg-gradient-gentle-primary/20"}
                 >
                   Active
                 </Button>
-                <div className="flex border rounded-lg">
+                <div className="flex border border-gradient-gentle-neutral/30 rounded-lg bg-gradient-gentle-neutral/20">
                   <Button
                     variant={viewMode === "list" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setViewMode("list")}
-                    className={viewMode === "list" ? "bg-luxury-pink hover:bg-luxury-pink/90" : ""}
+                    className={viewMode === "list" ? "bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary" : "hover:bg-gradient-gentle-neutral/30"}
                   >
                     <List className="w-4 h-4" />
                   </Button>
@@ -147,7 +149,7 @@ const Clients = () => {
                     variant={viewMode === "funnel" ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setViewMode("funnel")}
-                    className={viewMode === "funnel" ? "bg-luxury-pink hover:bg-luxury-pink/90" : ""}
+                    className={viewMode === "funnel" ? "bg-gradient-gentle-primary hover:bg-gradient-gentle-secondary" : "hover:bg-gradient-gentle-neutral/30"}
                   >
                     <LayoutGrid className="w-4 h-4" />
                   </Button>
@@ -159,15 +161,15 @@ const Clients = () => {
 
         {/* Client Views */}
         {viewMode === "list" ? (
-          <Card>
+          <Card className="bg-gradient-card shadow-soft border-0">
             <CardHeader>
-              <CardTitle className="text-luxury-dark">Client List</CardTitle>
+              <CardTitle>Client List</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b">
+                    <tr className="border-b border-gradient-gentle-neutral/30">
                       <th className="text-left py-3 px-4 font-medium text-muted-foreground">Name</th>
                       <th className="text-left py-3 px-4 font-medium text-muted-foreground">Type</th>
                       <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
@@ -179,13 +181,14 @@ const Clients = () => {
                   </thead>
                   <tbody>
                     {filteredClients.map((client) => (
-                      <tr key={client.id} className="border-b hover:bg-muted/50">
+                      <tr key={client.id} className="border-b border-gradient-gentle-neutral/20 hover:bg-gradient-gentle-neutral/10 transition-all duration-300">
                         <td className="py-3 px-4">
                           <div 
-                            className="flex items-center space-x-3 cursor-pointer hover:bg-muted/50 rounded p-2 -m-2"
+                            className="flex items-center space-x-3 cursor-pointer hover:bg-gradient-gentle-neutral/20 rounded p-2 -m-2 transition-all duration-300"
+                            onClick={() => router.push(`/coach/clients/${client.id}`)}
                           >
-                            <div className="w-8 h-8 bg-luxury-pink/20 rounded-full flex items-center justify-center">
-                              <span className="text-luxury-pink font-medium text-sm">
+                            <div className="w-8 h-8 bg-gradient-gentle-primary rounded-full flex items-center justify-center shadow-soft">
+                              <span className="text-white font-medium text-sm">
                                 {client.name.split(' ').map(n => n[0]).join('')}
                               </span>
                             </div>
@@ -194,20 +197,33 @@ const Clients = () => {
                         </td>
                         <td className="py-3 px-4">{client.type}</td>
                         <td className="py-3 px-4">
-                          <Badge variant="secondary" className="bg-green-100 text-green-700">
+                          <Badge variant="secondary" className="bg-gradient-gentle-secondary/20 text-foreground">
                             {client.status}
                           </Badge>
                         </td>
-                        <td className="py-3 px-4 text-xl">{client.mood}</td>
-                        <td className="py-3 px-4 text-muted-foreground">{client.lastActive}</td>
-                        <td className="py-3 px-4 text-muted-foreground">{client.created}</td>
+                        <td className="py-3 px-4 text-2xl">{client.mood}</td>
+                        <td className="py-3 px-4 text-sm text-muted-foreground">{client.lastActive}</td>
+                        <td className="py-3 px-4 text-sm text-muted-foreground">{client.created}</td>
                         <td className="py-3 px-4">
-                          <div className="flex space-x-2">
-                            <Button size="sm" variant="ghost" className="p-2"
-                                                        onClick={() => router.push(`/coach/clients/${client.id}`)}
->
-                              <Eye className="h-4 w-4" />
-                            </Button>
+                          <div className="flex items-center space-x-2">
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0 hover:bg-gradient-gentle-primary/20"
+                                    onClick={() => router.push(`/coach/clients/${client.id}`)}
+                                  >
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>View Profile</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+
                           </div>
                         </td>
                       </tr>
@@ -218,68 +234,39 @@ const Clients = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-luxury-dark">Client Funnel</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              <TooltipProvider>
-                {stages.map((stage) => {
-                  const stageClients = getClientsByStage(stage.id)
-                  return (
-                    <Card key={stage.id} className={`${stage.color} min-h-[400px]`}>
-                      <CardHeader>
-                        <CardTitle className="text-center text-sm font-medium">
-                          {stage.title}
-                        </CardTitle>
-                        <div className="text-center text-2xl font-bold text-luxury-dark">
-                          {stageClients.length}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {stages.map((stage) => (
+              <Card key={stage.id} className="bg-gradient-card shadow-soft border-0">
+                <CardHeader>
+                  <CardTitle className="text-sm font-medium">{stage.title}</CardTitle>
+                  <div className="text-2xl font-bold text-muted-foreground">
+                    {getClientsByStage(stage.id).length}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {getClientsByStage(stage.id).map((client) => (
+                    <div
+                      key={client.id}
+                      className={`p-3 rounded-lg border ${stage.color} cursor-pointer hover:shadow-soft transition-all duration-300`}
+                      onClick={() => router.push(`/coach/clients/${client.id}`)}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 bg-gradient-gentle-primary rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-medium">
+                              {client.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                          </div>
+                          <span className="font-medium text-sm">{client.name}</span>
                         </div>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        {stageClients.map((client) => (
-                          <Card 
-                            key={client.id} 
-                            className="cursor-pointer hover:shadow-md transition-shadow bg-white/50"
-                            onClick={() => router.push(`/coach/clients/${client.id}`)}
-                          >
-                            <CardContent className="p-3">
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center space-x-2">
-                                  <div className="w-6 h-6 bg-luxury-pink/20 rounded-full flex items-center justify-center">
-                                    <span className="text-luxury-pink font-medium text-xs">
-                                      {client.name.split(' ').map(n => n[0]).join('')}
-                                    </span>
-                                  </div>
-                                  <span className="font-medium text-sm">{client.name}</span>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                  {client.type === "Group" ? (
-                                    <Users className="w-3 h-3 text-muted-foreground" />
-                                  ) : (
-                                    <User className="w-3 h-3 text-muted-foreground" />
-                                  )}
-                                  <Tooltip>
-                                    <TooltipTrigger>
-                                      <StickyNote className="w-3 h-3 text-muted-foreground hover:text-luxury-pink" />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p className="max-w-xs">{client.note}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                <span>{client.lastActive}</span>
-                                <span className="text-lg">{client.mood}</span>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </CardContent>
-                    </Card>
-                  )
-                })}
-              </TooltipProvider>
-            </div>
+                        <span className="text-2xl">{client.mood}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground line-clamp-2">{client.note}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
           </div>
         )}
       </div>

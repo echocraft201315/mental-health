@@ -151,9 +151,9 @@ export const ExploreScreen = () => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-20 bg-background1">
       {/* Header */}
-      <div className="bg-gradient-card1 border-b border-border p-6">
+      <div className="bg-card1 border-b border-border p-6">
         <h1 className="text-2xl font-bold text-foreground1 mb-2">Explore</h1>
         <p className="text-muted-foreground1">Discover programs, guides, and resources for your wellness journey</p>
       </div>
@@ -193,7 +193,7 @@ export const ExploreScreen = () => {
           <h2 className="text-lg font-semibold text-foreground1">Featured Content</h2>
           <div className="space-y-4">
             {featuredContent.map((content) => (
-              <div key={content.id} className="p-4 rounded-xl bg-card1 border border-border shadow-soft">
+              <div key={content.id} className="p-4 rounded-xl bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all">
                 <div className="flex items-start space-x-4">
                   <div className="w-16 h-16 rounded-xl bg-gradient-primary1 flex items-center justify-center text-2xl">
                     {content.thumbnail}
@@ -243,7 +243,7 @@ export const ExploreScreen = () => {
           <h2 className="text-lg font-semibold text-foreground1">Wellness Programs</h2>
           <div className="space-y-4">
             {programs.map((program) => (
-              <div key={program.id} className="p-4 rounded-xl bg-gradient-card1 border border-border shadow-soft">
+              <div key={program.id} className="p-4 rounded-xl bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all">
                 <div className="flex items-start space-x-4">
                   <div className="w-16 h-16 rounded-xl bg-gradient-warm flex items-center justify-center text-2xl">
                     {program.thumbnail}
